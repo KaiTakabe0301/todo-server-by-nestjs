@@ -11,8 +11,11 @@ export class TodosService {
     return 'This action adds a new todo';
   }
 
-  findAll() {
-    return this.prisma.todo.findMany();
+  findAll(completed?: boolean) {
+    if (completed === undefined) {
+      return this.prisma.todo.findMany();
+    }
+    return this.prisma.todo.findMany({ where: { completed } });
   }
 
   findOne(id: number) {

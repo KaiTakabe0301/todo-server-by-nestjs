@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('todos')
 export class TodosController {
@@ -13,8 +23,13 @@ export class TodosController {
   }
 
   @Get()
-  findAll() {
-    return this.todosService.findAll();
+  @ApiQuery({ name: 'completed', required: false, type: Boolean })
+  findAll(@Query('completed') completed?: string) {
+    if (completed === undefined) {
+      return this.todosService.findAll();
+    }
+    const isCompleted = completed === 'true' ? true : false;
+    return this.todosService.findAll(isCompleted);
   }
 
   @Get(':id')
