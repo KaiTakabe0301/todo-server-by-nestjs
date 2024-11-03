@@ -26,7 +26,7 @@ export class TodosService {
     return this.prisma.todo.update({ where: { id }, data: updateTodoDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todo`;
+  remove(id: string) {
+    return this.prisma.todo.delete({ where: { id } });
   }
 }
