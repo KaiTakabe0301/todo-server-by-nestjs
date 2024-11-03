@@ -22,8 +22,8 @@ export class TodosService {
     return this.prisma.todo.findUnique({ where: { id } });
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  update(id: string, updateTodoDto: UpdateTodoDto) {
+    return this.prisma.todo.update({ where: { id }, data: updateTodoDto });
   }
 
   remove(id: number) {
